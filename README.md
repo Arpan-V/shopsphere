@@ -111,6 +111,6 @@ mvn spring-boot:run
 
 ## 👨‍💻 Author
 
-Developed by **Arpan**
+Developed by **Arpan-V**
 
 ---
