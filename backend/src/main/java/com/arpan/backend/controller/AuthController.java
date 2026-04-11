@@ -1,6 +1,6 @@
 package com.arpan.backend.controller;
-import com.arpan.backend.dto.request.LoginRequest;
-import com.arpan.backend.dto.request.RegisterRequest;
+import com.arpan.backend.dto.auth.LoginRequest;
+import com.arpan.backend.dto.auth.RegisterRequest;
 import com.arpan.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

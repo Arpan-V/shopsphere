@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -19,7 +20,7 @@ import java.util.Date;
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int prodId;
+    private long prodId;
     private int stockQuantity;
     private BigDecimal price;
     private String name;
@@ -27,7 +28,6 @@ public class Products {
     private String brand;
     private String category;
     private boolean productAvailable;
-    //    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
 
     //Image
@@ -36,4 +36,22 @@ public class Products {
     // Large Object
     @Lob
     private byte[] imageData;
+
+    @Override
+    public String toString() {
+        return "Products{" +
+                "prodId=" + prodId +
+                ", stockQuantity=" + stockQuantity +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", brand='" + brand + '\'' +
+                ", category='" + category + '\'' +
+                ", productAvailable=" + productAvailable +
+                ", releaseDate=" + releaseDate +
+                ", imageName='" + imageName + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", imageData=" + Arrays.toString(imageData) +
+                '}';
+    }
 }

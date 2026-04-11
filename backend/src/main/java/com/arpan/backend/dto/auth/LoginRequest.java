@@ -1,4 +1,4 @@
-package com.arpan.backend.dto.request;
+package com.arpan.backend.dto.auth;
 import lombok.Data;
 
 @Data
