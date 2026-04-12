@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // allow register/login
+                        .requestMatchers("/api/auth/**", "/products").permitAll() // allow register/login
                         .anyRequest().authenticated()
                 );
 

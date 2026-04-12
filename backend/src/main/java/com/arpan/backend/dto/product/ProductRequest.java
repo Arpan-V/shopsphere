@@ -1,12 +1,14 @@
 package com.arpan.backend.dto.product;
+
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class ProductResponse {
+public class ProductRequest {
 
-    private long prodId;
     private String name;
     private String description;
     private String brand;
@@ -15,5 +17,6 @@ public class ProductResponse {
     private int stockQuantity;
     private boolean productAvailable;
     private Date releaseDate;
-    private String imageUrl;
+
+    private MultipartFile image; // ✅ correct way
 }
