@@ -23,20 +23,20 @@ public class ProductServiceImpl implements ProductService {
         List<Products> products = productRepo.findAll();
 
         return products.stream()
-                .map(this::mapForRes)
+                .map(this::mapToResponse)
                 .toList();
     }
 
 
     @Override
-    public ProductResponse getProductById(int prodId) {
+    public ProductResponse getProductById(Long prodId) {
         Products product = productRepo.findById(prodId)
                 .orElseThrow(() -> new RuntimeException("Product not found."));
-        return mapForRes(product);
+        return mapToResponse(product);
     }
 
     @Override
-    public void deleteProduct(int prodId) {
+    public void deleteProduct(Long prodId) {
         Products product = productRepo.findById(prodId)
                         .orElseThrow(() -> new RuntimeException("Product not found"));
         productRepo.delete(product);
@@ -45,23 +45,29 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse createProduct(ProductRequest request) {
 
-        // Step 1: DTO → Entity
-        Products product = mapForReq(request);
+        // Step 1: DTO request → Entity
+        Products product = mapToEntity(request);
 
         // Step 2: Save
         Products savedProduct = productRepo.save(product);
 
         // Step 3: Entity → Response
-        return mapForRes(savedProduct);
+        return mapToResponse(savedProduct);
     }
 
     @Override
-    public ProductResponse updateProduct(int id, ProductRequest request) {
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
         return null;
     }
 
+    @Override
+    public Products getProductEntity(Long id) {
+        return productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
 
-    private ProductResponse mapForRes(Products product) {
+
+    private ProductResponse mapToResponse(Products product) {
         ProductResponse response = new ProductResponse();
 
         response.setProdId(product.getProdId());
@@ -75,12 +81,11 @@ public class ProductServiceImpl implements ProductService {
         response.setReleaseDate(product.getReleaseDate());
 
         // image URL (important)
-        response.setImageUrl("/products/" + product.getProdId() + "/image");
-
+        response.setImageUrl("/api/products/" + product.getProdId() + "/image");
         return response;
     }
 
-    private Products mapForReq(ProductRequest request){
+    private Products mapToEntity(ProductRequest request){
         Products product = new Products();
 
         product.setName(request.getName());

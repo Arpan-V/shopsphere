@@ -6,7 +6,7 @@ import java.util.Date;
 @Data
 public class ProductResponse {
 
-    private long prodId;
+    private Long prodId;
     private String name;
     private String description;
     private String brand;

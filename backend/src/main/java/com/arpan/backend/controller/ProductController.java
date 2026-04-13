@@ -1,8 +1,12 @@
 package com.arpan.backend.controller;
 
+import com.arpan.backend.dto.product.ProductRequest;
 import com.arpan.backend.dto.product.ProductResponse;
+import com.arpan.backend.entity.Products;
 import com.arpan.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +24,34 @@ public class ProductController {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping("/product/{prodId}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable int prodId){
+    @GetMapping("/products/{prodId}")
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long prodId){
         return ResponseEntity.ok(productService.getProductById(prodId));
     }
 
-    @PostMapping("/product/{prodId}")
-    public ResponseEntity<String> deleteProduct(@PathVariable int prodId){
+    @DeleteMapping("/products/{prodId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long prodId){
         productService.deleteProduct(prodId);
-        return ResponseEntity.ok("Product deleted successfully");
+        return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/products")
+    public ResponseEntity<ProductResponse> addProduct(
+            @ModelAttribute ProductRequest request) {
 
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(productService.createProduct(request));
+    }
+
+    @GetMapping("/products/{id}/image")
+    public ResponseEntity<byte[]> getImageByProductId(@PathVariable Long id){
+
+        Products product = productService.getProductEntity(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(product.getImageType()))
+                .body(product.getImageData());
+    }
+
+    
 }
