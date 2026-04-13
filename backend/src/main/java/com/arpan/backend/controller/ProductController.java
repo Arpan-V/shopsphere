@@ -21,13 +21,14 @@ public class ProductController {
     }
 
     @GetMapping("/product/{prodId}")
-    public ResponseEntity<ProductResponse> getProductById(@PathVariable long prodId){
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable int prodId){
         return ResponseEntity.ok(productService.getProductById(prodId));
     }
 
     @PostMapping("/product/{prodId}")
-    public ResponseEntity<ProductResponse> deleteProduct(@PathVariable long prodId){
-        return ResponseEntity.ok(productService.deleteProduct(prodId));
+    public ResponseEntity<String> deleteProduct(@PathVariable int prodId){
+        productService.deleteProduct(prodId);
+        return ResponseEntity.ok("Product deleted successfully");
     }
 
 

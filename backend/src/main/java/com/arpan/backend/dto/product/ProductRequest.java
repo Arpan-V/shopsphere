@@ -18,5 +18,5 @@ public class ProductRequest {
     private boolean productAvailable;
     private Date releaseDate;
 
-    private MultipartFile image; // ✅ correct way
+    private MultipartFile image;
 }

@@ -9,11 +9,11 @@ public interface ProductService {
 
     List<ProductResponse> getAllProducts();
 
-    ProductResponse getProductById(long prodId);
+    ProductResponse getProductById(int prodId);
 
-    ProductResponse deleteProduct(long prodId);
+    void deleteProduct(int prodId);
 
     ProductResponse createProduct(ProductRequest request);
 
-    ProductResponse updateProduct(Long id, ProductRequest request);
+    ProductResponse updateProduct(int id, ProductRequest request);
 }

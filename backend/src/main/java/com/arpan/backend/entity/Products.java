@@ -20,7 +20,7 @@ import java.util.Date;
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long prodId;
+    private int prodId;
     private int stockQuantity;
     private BigDecimal price;
     private String name;
