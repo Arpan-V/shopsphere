@@ -3,6 +3,7 @@ package com.arpan.backend.service.impl;
 import com.arpan.backend.dto.product.ProductRequest;
 import com.arpan.backend.dto.product.ProductResponse;
 import com.arpan.backend.entity.Products;
+import com.arpan.backend.exception.ProductNotFoundException;
 import com.arpan.backend.repository.ProductRepo;
 import com.arpan.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse getProductById(Long prodId) {
         Products product = productRepo.findById(prodId)
-                .orElseThrow(() -> new RuntimeException("Product not found."));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found."));
         return mapToResponse(product);
     }
 
