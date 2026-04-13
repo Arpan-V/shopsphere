@@ -53,5 +53,13 @@ public class ProductController {
                 .body(product.getImageData());
     }
 
-    
+    @PutMapping("/products/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable Long id,
+            @ModelAttribute ProductRequest request) {
+
+        ProductResponse response = productService.updateProduct(id, request);
+
+        return ResponseEntity.ok(response);
+    }
 }

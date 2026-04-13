@@ -57,7 +57,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponse updateProduct(Long id, ProductRequest request) {
-        return null;
+
+        // Step 1: Get existing product
+        Products existingProduct = productRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        // Step 2: Update fields
+        existingProduct.setName(request.getName());
+        existingProduct.setDescription(request.getDescription());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setCategory(request.getCategory());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setStockQuantity(request.getStockQuantity());
+        existingProduct.setProductAvailable(request.isProductAvailable());
+        existingProduct.setReleaseDate(request.getReleaseDate());
+
+        // Step 3: Update image (only if new image provided)
+        MultipartFile file = request.getImage();
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                existingProduct.setImageName(file.getOriginalFilename());
+                existingProduct.setImageType(file.getContentType());
+                existingProduct.setImageData(file.getBytes());
+            } catch (IOException e) {
+                throw new RuntimeException("Image update failed");
+            }
+        }
+
+        // Step 4: Save updated product
+        Products updatedProduct = productRepo.save(existingProduct);
+
+        // Step 5: Return response
+        return mapToResponse(updatedProduct);
     }
 
     @Override
