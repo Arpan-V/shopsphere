@@ -26,6 +26,7 @@ This project demonstrates clean architecture, secure authentication, and scalabl
 * **Authentication:** JWT (JSON Web Tokens)
 * **Build Tool:** Maven
 * **API Testing:** Postman / Swagger
+* **Frontend:** Next.js
 
 ---
 
