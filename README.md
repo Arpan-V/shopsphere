@@ -57,9 +57,9 @@ src/main/java/com/shopsphere
 ### Products
 
 * `GET /api/products`
-* `POST /api/products` (ADMIN)
-* `PUT /api/products/{id}` (ADMIN)
-* `DELETE /api/products/{id}` (ADMIN)
+* `POST /api/products`
+* `PUT /api/products/{id}`
+* `DELETE /api/products/{id}`
 
 ### Cart
 
