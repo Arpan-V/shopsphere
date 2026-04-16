@@ -17,7 +17,7 @@ public class Users {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String username;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -32,7 +32,7 @@ public class Users {
     public String toString() {
         return "Users{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +

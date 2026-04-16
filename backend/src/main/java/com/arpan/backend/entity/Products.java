@@ -2,10 +2,7 @@ package com.arpan.backend.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -17,10 +14,12 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "products")
+@Builder
 public class Products {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long prodId;
+
     private int stockQuantity;
     private BigDecimal price;
     private String name;

@@ -16,7 +16,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String register(RegisterRequest request) {
         Users user = Users.builder()
-                .name(request.getName())
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(request.getPassword()) // hash later
                 .role("USER")
