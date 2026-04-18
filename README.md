@@ -82,7 +82,6 @@ src/main/java/com/shopsphere
 * Scalable design following **layered architecture**
 * Optimized queries for:
 
-  * User order history
   * Top-selling products
   * Sales insights
 
