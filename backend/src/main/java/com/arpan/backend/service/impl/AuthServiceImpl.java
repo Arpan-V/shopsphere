@@ -6,6 +6,7 @@ import com.arpan.backend.repository.UserRepo;
 import com.arpan.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,14 +14,14 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepo userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(15);
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public String register(RegisterRequest request) {
         Users user = Users.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword()) // hash later
+                .password(passwordEncoder.encode(request.getPassword()))
                 .role("ROLE_USER")
                 .build();
 
