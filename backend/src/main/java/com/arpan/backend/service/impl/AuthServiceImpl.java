@@ -5,6 +5,9 @@ import com.arpan.backend.entity.Users;
 import com.arpan.backend.repository.UserRepo;
 import com.arpan.backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepo userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     @Override
     public String register(RegisterRequest request) {
@@ -31,6 +36,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(LoginRequest request) {
-        return "Login logic coming soon";
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getUsername(),
+                            request.getPassword()
+                    )
+            );
+            return jwtService.generateToken(request.getUsername());
+        } catch (Exception e) {
+            return "Login Failed";
+        }
     }
 }
