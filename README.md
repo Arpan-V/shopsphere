@@ -101,6 +101,9 @@ git clone https://github.com/arpan-v/shopsphere.git
 # Navigate to project folder
 cd shopsphere/backend
 
+# Edit application.properties file
+Change $pass to your local database password
+
 # Run the application
 mvn spring-boot:run
 ```
