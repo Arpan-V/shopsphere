@@ -11,8 +11,7 @@ This project demonstrates clean architecture, secure authentication, and scalabl
 * Role-Based Access Control (USER / ADMIN)
 * Product & Category Management
 * Cart & Checkout System
-* 📑 Order Management & History
-* 🔍 Search, Filtering & Pagination
+* Search, Filtering & Pagination
 * ✅ Input Validation & Global Exception Handling
 * 📊 Optimized SQL Queries for Analytics
 
