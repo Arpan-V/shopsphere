@@ -7,8 +7,8 @@ This project demonstrates clean architecture, secure authentication, and scalabl
 
 ## 🚀 Features
 
-* 🔐 JWT-based Authentication & Authorization
-* 👤 Role-Based Access Control (USER / ADMIN)
+* JWT-based Authentication & Authorization
+* Role-Based Access Control (USER / ADMIN)
 * 📦 Product & Category Management
 * 🛒 Cart & Checkout System
 * 📑 Order Management & History
