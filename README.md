@@ -12,8 +12,8 @@ This project demonstrates clean architecture, secure authentication, and scalabl
 * Product & Category Management
 * Cart & Checkout System
 * Search, Filtering & Pagination
-* ✅ Input Validation & Global Exception Handling
-* 📊 Optimized SQL Queries for Analytics
+* Input Validation & Global Exception Handling
+* Optimized SQL Queries for Analytics
 
 ---
 
