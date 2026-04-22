@@ -25,8 +25,10 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    private String role; // USER / ADMIN
+    @Column(nullable = false)
+    private boolean enabled;
 
+    private String role; // USER / ADMIN
 
     @Override
     public String toString() {
@@ -35,6 +37,7 @@ public class Users {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", enabled=" + enabled +
                 ", role='" + role + '\'' +
                 '}';
     }
