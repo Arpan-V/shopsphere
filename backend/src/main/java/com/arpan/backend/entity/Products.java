@@ -36,6 +36,10 @@ public class Products {
     @Lob
     private byte[] imageData;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
+
     @Override
     public String toString() {
         return "Products{" +

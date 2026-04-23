@@ -233,7 +233,7 @@ public class AuthServiceImpl implements AuthService {
         }
         // 🔐 generate new token
         String token = UUID.randomUUID().toString();
-        
+
         // 💾 save new token
         VerificationToken verificationToken = VerificationToken.builder()
                 .token(token)

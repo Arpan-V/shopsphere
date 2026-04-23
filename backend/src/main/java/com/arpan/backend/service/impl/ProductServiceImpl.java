@@ -3,10 +3,17 @@ package com.arpan.backend.service.impl;
 import com.arpan.backend.dto.product.ProductRequest;
 import com.arpan.backend.dto.product.ProductResponse;
 import com.arpan.backend.entity.Products;
+import com.arpan.backend.entity.Users;
+import com.arpan.backend.exception.AuthException;
 import com.arpan.backend.exception.ProductNotFoundException;
 import com.arpan.backend.repository.ProductRepo;
+import com.arpan.backend.repository.UserRepo;
 import com.arpan.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,52 +25,90 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepo productRepo;
+    private final UserRepo userRepository;
 
-    @Override
-    public List<ProductResponse> getAllProducts() {
-        List<Products> products = productRepo.findAll();
+    // 🔐 Helper: get current user
+    private Users getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        assert auth != null;
+        String username = auth.getName();
 
-        return products.stream()
-                .map(this::mapToResponse)
-                .toList();
+
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
+    // 🔐 Helper: check if admin
+    private boolean isAdmin(Authentication auth) {
+        return auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+    }
+
+    // 🔐 Helper: ownership + admin check
+    private void validateOwnershipOrAdmin(Products product, Users currentUser, boolean isAdmin) {
+        if (!product.getUser().getId().equals(currentUser.getId()) && !isAdmin) {
+            throw new AuthException("You are not allowed to perform this action");
+        }
+    }
+
+    @Override
+    public Page<ProductResponse> getAllProducts(Pageable pageable) {
+        return productRepo.findAll(pageable)
+                .map(this::mapToResponse);
+    }
 
     @Override
     public ProductResponse getProductById(Long prodId) {
         Products product = productRepo.findById(prodId)
-                .orElseThrow(() -> new ProductNotFoundException("Product not found."));
+                .orElseThrow(() -> new ProductNotFoundException("Product not found"));
         return mapToResponse(product);
     }
 
     @Override
     public void deleteProduct(Long prodId) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean admin = isAdmin(auth);
+
+        Users currentUser = getCurrentUser();
+
         Products product = productRepo.findById(prodId)
-                        .orElseThrow(() -> new RuntimeException("Product not found"));
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        validateOwnershipOrAdmin(product, currentUser, admin);
+
         productRepo.delete(product);
     }
 
     @Override
     public ProductResponse createProduct(ProductRequest request) {
 
-        // Step 1: DTO request → Entity
+        Users currentUser = getCurrentUser();
+
         Products product = mapToEntity(request);
 
-        // Step 2: Save
+        // 🔐 set owner
+        product.setUser(currentUser);
+
         Products savedProduct = productRepo.save(product);
 
-        // Step 3: Entity → Response
         return mapToResponse(savedProduct);
     }
 
     @Override
     public ProductResponse updateProduct(Long id, ProductRequest request) {
 
-        // Step 1: Get existing product
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean admin = isAdmin(auth);
+
+        Users currentUser = getCurrentUser();
+
         Products existingProduct = productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Step 2: Update fields
+        validateOwnershipOrAdmin(existingProduct, currentUser, admin);
+
+        // 🔄 update fields
         existingProduct.setName(request.getName());
         existingProduct.setDescription(request.getDescription());
         existingProduct.setBrand(request.getBrand());
@@ -73,7 +118,6 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setProductAvailable(request.isProductAvailable());
         existingProduct.setReleaseDate(request.getReleaseDate());
 
-        // Step 3: Update image (only if new image provided)
         MultipartFile file = request.getImage();
 
         if (file != null && !file.isEmpty()) {
@@ -86,10 +130,8 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        // Step 4: Save updated product
         Products updatedProduct = productRepo.save(existingProduct);
 
-        // Step 5: Return response
         return mapToResponse(updatedProduct);
     }
 
@@ -98,7 +140,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepo.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
-
 
     private ProductResponse mapToResponse(Products product) {
         ProductResponse response = new ProductResponse();
@@ -113,12 +154,13 @@ public class ProductServiceImpl implements ProductService {
         response.setProductAvailable(product.isProductAvailable());
         response.setReleaseDate(product.getReleaseDate());
 
-        // image URL (important)
         response.setImageUrl("/api/products/" + product.getProdId() + "/image");
+
         return response;
     }
 
-    private Products mapToEntity(ProductRequest request){
+    private Products mapToEntity(ProductRequest request) {
+
         Products product = new Products();
 
         product.setName(request.getName());

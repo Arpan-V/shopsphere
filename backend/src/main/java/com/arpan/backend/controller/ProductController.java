@@ -4,6 +4,8 @@ import com.arpan.backend.dto.product.ProductResponse;
 import com.arpan.backend.entity.Products;
 import com.arpan.backend.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,8 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getAllProducts(){
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<Page<ProductResponse>> getAllProducts(Pageable pageable){
+        return ResponseEntity.ok(productService.getAllProducts(pageable));
     }
 
     @GetMapping("/products/{prodId}")

@@ -3,12 +3,14 @@ package com.arpan.backend.service;
 import com.arpan.backend.dto.product.ProductRequest;
 import com.arpan.backend.dto.product.ProductResponse;
 import com.arpan.backend.entity.Products;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProductService {
 
-    List<ProductResponse> getAllProducts();
+    Page<ProductResponse> getAllProducts(Pageable pageable);
 
     ProductResponse getProductById(Long prodId);
 
