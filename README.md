@@ -1,4 +1,4 @@
-# 🛒 ShopSphere API (In Progress)
+# 🛒 ShopSphere API (Ongoing)
 
 A production-ready E-commerce Backend built using **Spring Boot**.
 This project demonstrates clean architecture, secure authentication, and scalable backend design.
