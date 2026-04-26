@@ -21,7 +21,7 @@ This project demonstrates clean architecture, secure authentication, and scalabl
 
 * **Backend:** Spring Boot, Spring Security
 * **Database:** PostgreSQL
-* **ORM:** Hibernate / JPA
+* **ORM:** JPA
 * **Authentication:** JWT (JSON Web Tokens)
 * **Build Tool:** Maven
 * **API Testing:** Postman / Swagger
