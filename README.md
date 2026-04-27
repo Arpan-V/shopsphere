@@ -104,7 +104,7 @@ cd shopsphere/backend
 # Edit application.properties file
 Change $pass to your local database password
 
-# Run the application
+# Run the application from shell
 mvn spring-boot:run
 ```
 
