@@ -37,7 +37,7 @@ src/main/java/com/shopsphere
 ├── controller      # REST Controllers
 ├── service         # Business Logic
 ├── repository      # Data Access Layer
-├── dto             # Data Transfer Objects
+├── dto             # Data Transfer
 ├── entity          # Database Entities
 ├── security        # JWT & Authentication
 ├── exception       # Global Exception Handling
